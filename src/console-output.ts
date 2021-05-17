@@ -3,8 +3,25 @@
 import { Tag } from './tag'
 import kleur, { Kleur } from 'kleur'
 import { isNullish, tap } from '@supercharge/goodies'
+import { LoggerContract, ConsoleLogger } from './logger'
 
 export class ConsoleOutput {
+  /**
+   * Stores the instance state.
+   */
+  private readonly meta: {
+    logger: LoggerContract
+  }
+
+  /**
+   * Creat a new instance.
+   */
+  constructor () {
+    this.meta = {
+      logger: new ConsoleLogger()
+    }
+  }
+
   /**
    * Returns the colors instance.
    *
@@ -24,6 +41,26 @@ export class ConsoleOutput {
   }
 
   /**
+   * Returns the logger instance.
+   *
+   * @returns {LoggerContract}
+   */
+  logger (): LoggerContract {
+    return this.meta.logger
+  }
+
+  /**
+   * Returns the logger instance.
+   *
+   * @returns {LoggerContract}
+   */
+  withLogger (logger: LoggerContract): this {
+    return tap(this, () => {
+      this.meta.logger = logger
+    })
+  }
+
+  /**
    * Log the given `message` to the output console using `console.log`.
    *
    * @param message
@@ -32,7 +69,7 @@ export class ConsoleOutput {
    */
   log (message: string): this {
     return tap(this, () => {
-      console.log(message)
+      this.logger().log(message)
     })
   }
 
@@ -45,7 +82,7 @@ export class ConsoleOutput {
    */
   logError (message: string): this {
     return tap(this, () => {
-      console.error(message)
+      this.logger().logError(message)
     })
   }
 
