@@ -33,6 +33,17 @@ export class MemoryLogger implements LoggerContract {
   }
 
   /**
+   * Delete existing logs.
+   *
+   * @returns {MemoryLogger}
+   */
+  clearLogs (): MemoryLogger {
+    return tap(this, () => {
+      this.meta.logs = []
+    })
+  }
+
+  /**
    * Save the given `message` into memory.
    *
    * @param message
