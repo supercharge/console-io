@@ -243,6 +243,19 @@ test('Console Output', async t => {
     t.ok(logger.logs()[0].message.includes('  to create the file'))
   })
 
+  test('Tag: failed with reason', async t => {
+    const logger = new MemoryLogger()
+    const output = new ConsoleOutput().withLogger(logger)
+
+    output.tag('FaileD').failed('to create the file', 'already existing')
+
+    t.equal(logger.logs().length, 1)
+    t.equal(logger.logs()[0].stream, 'stderr')
+    t.ok(logger.logs()[0].message.includes('FaileD'))
+    t.ok(logger.logs()[0].message.includes('  to create the file:'))
+    t.ok(logger.logs()[0].message.includes('already existing'))
+  })
+
   test('Tag: throws for invalid input', async t => {
     const output = new ConsoleOutput()
 
