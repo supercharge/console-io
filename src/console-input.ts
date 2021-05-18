@@ -1,6 +1,7 @@
 'use strict'
 
 import Prompt, { Choice } from 'prompts'
+import { tap } from '@supercharge/goodies'
 import { PromptBuilder } from './builder/prompt'
 import { ConfirmBuilder } from './builder/confirm'
 import { QuestionBuilder } from './builder/question'
@@ -113,6 +114,17 @@ export class ConsoleInput {
    */
   async progress (): Promise<any> {
     //
+  }
+
+  /**
+   * Inject the given `answers`.
+   *
+   * @returns {ConsoleInput}
+   */
+  injectAnswers<T> (answers: T | T[]): this {
+    return tap(this, () => {
+      Prompt.inject(([] as T[]).concat(answers))
+    })
   }
 
   /**
