@@ -53,8 +53,8 @@
     "dev": "tsc --watch",
     "lint": "eslint src --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",
-    "test": "npm run build && npm run lint && npm run test:run && npm run test:coverage",
+    "test": "npm run build && npm run lint && npm run test:run",
     "test:run": "tap --no-check-coverage",
-    "test:coverage": "tap --coverage-report=text --coverage-report=html --no-browser --lines 50 --branches 50 --functions 50 --statements 50"
+    "posttest": "tap --no-check-coverage --coverage-report=html --no-browser"
   }
 }
