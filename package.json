@@ -55,6 +55,6 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "npm run build && npm run lint && npm run test:run && npm run test:coverage",
     "test:run": "tap --no-check-coverage",
-    "test:coverage": "tap --coverage-report=text --coverage-report=html --no-browser --lines 80 --branches 80 --functions 80 --statements 80"
+    "test:coverage": "tap --coverage-report=text --coverage-report=html --no-browser --lines 50 --branches 50 --functions 50 --statements 50"
   }
 }
