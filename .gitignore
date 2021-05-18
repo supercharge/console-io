@@ -12,6 +12,7 @@ lib-cov
 
 pids
 results
+.DS_Store
 
 dist
 node_modules
