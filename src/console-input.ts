@@ -1,8 +1,9 @@
 'use strict'
 
-import Prompt, { Choice } from 'prompts'
+import Prompt from 'prompts'
 import { tap } from '@supercharge/goodies'
 import { PromptBuilder } from './builder/prompt'
+import { ChoiceBuilder } from './builder/choice'
 import { ConfirmBuilder } from './builder/confirm'
 import { QuestionBuilder } from './builder/question'
 import { SecureInputBuilder } from './builder/secure'
@@ -55,20 +56,21 @@ export class ConsoleInput {
    *
    * @returns {String}
    */
-  // async choice (question: string, callback: (choiceBuilder: ChoiceBuilder) => unknown): Promise<string> {
-  async choice (question: string, choices: Choice[]): Promise<string> {
+  async choice (question: string, callback: (choiceBuilder: ChoiceBuilder) => unknown): Promise<string> {
     const builder = new PromptBuilder()
       .type('select')
       .question(question)
-      .choices(choices)
 
-    // if (callback) {
-    //   callback(new ChoiceBuilder(builder))
+    if (typeof callback !== 'function') {
+      throw new Error(`The second argument to ".choice(question, callback)" must be a function. Received ${typeof callback}`)
+    }
 
-    //   if (!builder.hasChoices()) {
-    //     throw new Error('You must provide at least one option to select from.')
-    //   }
-    // }
+    const choiceBuilder = new ChoiceBuilder()
+    callback(choiceBuilder)
+
+    builder.choices(
+      choiceBuilder.choices()
+    )
 
     return await this.prompt(builder)
   }
@@ -110,20 +112,17 @@ export class ConsoleInput {
   }
 
   /**
-   * Returns a progress bar.
-   */
-  async progress (): Promise<any> {
-    //
-  }
-
-  /**
-   * Inject the given `answers`.
+   * Inject the given `answers` which will be used to answer the questions
+   * when prompting the user for input. The prompt immediately resolves
+   * with the given answers without asking the user for any input.
+   *
+   * @param {*} answers
    *
    * @returns {ConsoleInput}
    */
-  injectAnswers<T> (answers: T | T[]): this {
+  injectAnswers (answers: any): this {
     return tap(this, () => {
-      Prompt.inject(([] as T[]).concat(answers))
+      Prompt.inject([].concat(answers ?? []))
     })
   }
 
