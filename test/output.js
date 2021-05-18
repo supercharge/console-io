@@ -3,7 +3,7 @@
 const { test } = require('tap')
 const { ConsoleOutput, MemoryLogger } = require('../dist')
 
-test('Console Output', async t => {
+test('Console Output', async () => {
   test('colors exist', async t => {
     const output = new ConsoleOutput()
     t.ok(output.colors())
