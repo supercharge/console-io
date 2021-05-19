@@ -36,7 +36,7 @@ export class ConsoleOutput {
    *
    * @returns {ConsoleOutput}
    */
-  emptyLine (): this {
+  blankLine (): this {
     return this.log('')
   }
 
