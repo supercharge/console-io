@@ -8,13 +8,12 @@
     <h3>Console IO</h3>
   </p>
   <p>
-    Build beautiful console inputs and outputs.
+    Opinionated UI kit for CLI inputs and outputs.
   </p>
   <br/>
   <p>
     <a href="#installation"><strong>Installation</strong></a> ·
-    <a href="#docs"><strong>Docs</strong></a> ·
-    <a href="#api"><strong>API</strong></a>
+    <a href="#docs"><strong>Usage</strong></a>
   </p>
   <br/>
   <br/>
@@ -30,7 +29,7 @@
 ---
 
 ## Introduction
-The `@supercharge/console-io` package allows you to retrieve input from and print output to the console.
+The `@supercharge/console-io` package is a CLI UI kit. It provides an opinionated styling for console outputs and allows you to easily retrieve user retrieve input from the terminal.
 
 
 ## Installation
@@ -40,25 +39,95 @@ npm i @supercharge/console-io
 ```
 
 
-## Docs
-Find all the [details for `@supercharge/console-io` in the extensive Supercharge docs](https://superchargejs.com/docs/console).
+## Table of Contents
 
+- [Usage](#usage)
+- [Input](#input)
+  - `input.ask(message, builder?)`
+  - `input.confirm(message, builder?)`
+  - `input.password(message, builder?)`
+  - `input.secure(message, builder?)`
+  - `input.choice(message, builder?)`
+- [Output](#output)
+  - Logging
+    - `output.log(message)`
+    - `output.logError(message)`
+    - `output.blankLine()`
+    - `output.debug(message)`
+    - `output.info(message)`
+    - `output.warn(message)`
+    - `output.error(message)`
+    - `output.error(Error)`
+    - `output.success(labelOrMessage, message?)`
+    - `output.hint(labelOrMessage, message?)`
+    - `output.fail(labelOrMessage, message?)`
+  - Tags
+    - `output.tag(label).success(message)`
+    - `output.tag(label).info(message, reason?)`
+    - `output.tag(label).failed(message, reason?)`
 
 ## Usage
-Using `@supercharge/console-io` is pretty straightforward. The package exports a handful of methods that you can reach for when requiring the package:
+Using `@supercharge/console-io` is pretty straightforward.
 
 ```js
-const { ConsoleIO, ConsoleInput } = require('@supercharge/console-io')
+const { ConsoleInput, ConsoleOutput } = require('@supercharge/console-io')
 
 async function askForAndPrintTheName () {
-  const io = new ConsoleIO()
+  const input = new ConsoleInput()
+  const output = new ConsoleOutput()
 
   // asking the for input
   const name = await io.ask('What’s your name')
 
   // printing output to the terminal
+  output.success('Hello', name)
+}
+```
+
+
+## Input
+Intro
+
+```js
+const { ConsoleInput } = require('@supercharge/console-io')
+
+async function askForAndPrintTheName () {
+  const input = new ConsoleInput()
+  const output = new ConsoleOutput()
+
+  // asking the for input
+  const name = await input.ask('What’s your name')
+
+  // printing output to the terminal
   io.success('Hello', name)
 }
+```
+
+### Questions (`ask`)
+Intro
+
+```js
+const { ConsoleInput } = require('@supercharge/console-io')
+
+//
+const name = await io.ask('What’s your name')
+```
+
+#### Using the Question Builder
+Intro
+
+```js
+const { ConsoleInput } = require('@supercharge/console-io')
+
+const input = new ConsoleInput()
+const name = await input.ask('What’s your name', builder => {
+  builder
+    .defaultValue('Marcus')
+    .transform(value => String(value).toUpperCase())
+})
+
+// `name` when pressing enter using the default value: MARCUS
+// `name` when providing 'test': TEST
 ```
 
 
