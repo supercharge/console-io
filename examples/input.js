@@ -56,7 +56,7 @@ async function run () {
   const { password: pass, passwordRepeat } = await password()
   const secret = await secure()
 
-  console.log('\n Results -->')
+  console.log('')
   console.log({ name, age, confirmed, chosen, password: pass, passwordRepeat, secret })
 }
 
