@@ -13,7 +13,7 @@ test('Console Output', async () => {
     const logger = new MemoryLogger()
     const output = new ConsoleOutput().withLogger(logger)
 
-    output.emptyLine()
+    output.blankLine()
 
     t.same(logger.logs(), [{ message: '', stream: 'stdout' }])
   })
