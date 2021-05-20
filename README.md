@@ -99,6 +99,9 @@ const input = new ConsoleInput()
 ```
 
 
+---
+
+
 ### `input.ask(message, builder?)`
 Prompts the user for text input:
 
@@ -118,6 +121,9 @@ const name = await input.ask('What’s your name', builder => {
 // `name` when pressing enter using the default value: MARCUS
 // `name` when providing 'test' as the value: TEST
 ```
+
+
+---
 
 
 ### `input.confirm(message, builder?)`
