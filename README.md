@@ -43,8 +43,8 @@ npm i @supercharge/console-io
 
 - [Usage](#usage)
 - [Input](#input)
-  - `input.ask(message, builder?)`
-  - `input.confirm(message, builder?)`
+  - [`input.ask(message, builder?)`](#inputaskmessage-builder)
+  - [`input.confirm(message, builder?)`](#inputconfirmmessage-builder)
   - `input.password(message, builder?)`
   - `input.secure(message, builder?)`
   - `input.choice(message, builder?)`
@@ -102,7 +102,7 @@ const input = new ConsoleInput()
 ---
 
 
-### `input.ask(message, builder?)`
+### input.ask(message, builder?)
 Prompts the user for text input:
 
 ```js
@@ -126,7 +126,7 @@ const name = await input.ask('What’s your name', builder => {
 ---
 
 
-### `input.confirm(message, builder?)`
+### input.confirm(message, builder?)
 Prompts the user for a confirmation returning `true` or `false`:
 
 ```js
