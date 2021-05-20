@@ -86,48 +86,58 @@ async function askForAndPrintTheName () {
 
 
 ## Input
-Intro
+The package exports a `ConsoleInput` class. This class allows you to prompt users for input on the command line.
 
-```js
-const { ConsoleInput } = require('@supercharge/console-io')
+For example, you may ask the user for text input or to confirm/decline a given question.
 
-async function askForAndPrintTheName () {
-  const input = new ConsoleInput()
-  const output = new ConsoleOutput()
-
-  // asking the for input
-  const name = await input.ask('What’s your name')
-
-  // printing output to the terminal
-  io.success('Hello', name)
-}
-```
-
-### Questions (`ask`)
-Intro
-
-```js
-const { ConsoleInput } = require('@supercharge/console-io')
-
-//
-const name = await io.ask('What’s your name')
-```
-
-#### Using the Question Builder
-Intro
+Here’s how you create a console input instance called `input`. The following console input examples refer to this `input` instance when calling the individual methods.
 
 ```js
 const { ConsoleInput } = require('@supercharge/console-io')
 
 const input = new ConsoleInput()
+```
+
+
+### `input.ask(message, builder?)`
+Prompts the user for text input:
+
+```js
+const name = await input.ask('What’s your name')
+```
+
+The `ask` method accepts an optional builder callback as the second argument. This builder callback allows you to refine the question. Refining the question can be defining a default value or transforming the answer:
+
+```js
 const name = await input.ask('What’s your name', builder => {
   builder
     .defaultValue('Marcus')
-    .transform(value => String(value).toUpperCase())
+    .transform(answer => String(answer).toUpperCase())
 })
 
 // `name` when pressing enter using the default value: MARCUS
-// `name` when providing 'test': TEST
+// `name` when providing 'test' as the value: TEST
+```
+
+
+### `input.confirm(message, builder?)`
+Prompts the user for a confirmation returning `true` or `false`:
+
+```js
+const proceed = await input.confirm('This deletes all files. Proceed?')
+```
+
+The `confirm` method accepts a builder callback as the second argument. This builder callback allows you to refine the question. Refining the question can be defining a default value or transforming the answer:
+
+```js
+const proceed = await input.confirm('This deletes all files. Proceed?', builder => {
+  builder
+    .defaultValue(false)
+    .transform(answer => answer ? 1 : 0) // transforms `true` to `1` and `false` to `0`
+})
+
+// `proceed` when pressing enter using the default value: 0
+// `proceed` when selecting the truthy value: 1
 ```
 
 
