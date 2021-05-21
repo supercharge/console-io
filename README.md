@@ -45,9 +45,9 @@ npm i @supercharge/console-io
 - [Input](#input)
   - [`input.ask(message, builder?)`](#inputaskmessage-builder)
   - [`input.confirm(message, builder?)`](#inputconfirmmessage-builder)
-  - `input.password(message, builder?)`
-  - `input.secure(message, builder?)`
-  - `input.choice(message, builder?)`
+  - [`input.password(message, builder?)`](#inputpasswordmessage-builder)
+  - [`input.secure(message)`](#inputsecuremessage)
+  - [`input.choice(message, builder)`](#inputchoicemessage-builder)
 - [Output](#output)
   - Logging
     - `output.log(message)`
@@ -144,6 +144,58 @@ const proceed = await input.confirm('This deletes all files. Proceed?', builder 
 
 // `proceed` when pressing enter using the default value: 0
 // `proceed` when selecting the truthy value: 1
+```
+
+
+---
+
+
+### input.password(message, builder?)
+Prompts the user for a password input. The typed input is masked with stars:
+
+```js
+const password = await input.password('Provide your password')
+```
+
+The `password` method accepts a builder callback as the second argument. This builder callback allows you to refine the password prompt: you can make the input visible, like the password prompts on Linux systems:
+
+```js
+const password = await input.password('Provide your password (not visible when typing)', builder => {
+  builder
+    .invisible()
+    .transform(name => String(name).toLowerCase())
+})
+
+// `password` when typing "Supercharge": "supercharge"
+```
+
+
+---
+
+
+### input.secure(message)
+Prompts the user for a secure input which is not visible when the user types the input:
+
+```js
+const secret = await input.secure('Provide your password')
+```
+
+The `secure` method accepts is a shortcut to an invisible password prompts. It doesn’t show the input, not even masked with stars.
+
+
+---
+
+
+### input.choice(message, builder)
+Tba.
+
+```js
+const choice = await input.choice('Choose your favorite framework', builder => {
+  builder.add('Supercharge').withValue('supercharge')
+  builder.add('Express').withValue('express').markAsDisabled()
+})
+
+// `choice` when selecting "Supercharge": "supercharge"
 ```
 
 
