@@ -13,7 +13,8 @@
   <br/>
   <p>
     <a href="#installation"><strong>Installation</strong></a> ·
-    <a href="#docs"><strong>Usage</strong></a>
+    <a href="#table-of-contents"><strong>Table of Contents</strong></a>
+    <a href="#usage"><strong>Usage</strong></a>
   </p>
   <br/>
   <br/>
@@ -27,6 +28,9 @@
 </div>
 
 ---
+
+![Supercharge: Console IO Logging](https://github.com/supercharge/console-io/blob/main/assets/logging-preview.png)
+
 
 ## Introduction
 The `@supercharge/console-io` package is a CLI UI kit. It provides an opinionated styling for console outputs and allows you to easily retrieve user retrieve input from the terminal.
@@ -49,7 +53,7 @@ npm i @supercharge/console-io
   - [`input.secure(message)`](#inputsecuremessage)
   - [`input.choice(message, builder)`](#inputchoicemessage-builder)
 - [Output](#output)
-  - Logging
+  - [Logging](#logging)
     - `output.log(message)`
     - `output.logError(message)`
     - `output.blankLine()`
@@ -61,10 +65,11 @@ npm i @supercharge/console-io
     - `output.success(labelOrMessage, message?)`
     - `output.hint(labelOrMessage, message?)`
     - `output.fail(labelOrMessage, message?)`
-  - Tags
+  - [Tags](#tags)
     - `output.tag(label).success(message)`
     - `output.tag(label).info(message, reason?)`
     - `output.tag(label).failed(message, reason?)`
+
 
 ## Usage
 Using `@supercharge/console-io` is pretty straightforward.
@@ -196,6 +201,48 @@ const choice = await input.choice('Choose your favorite framework', builder => {
 })
 
 // `choice` when selecting "Supercharge": "supercharge"
+```
+
+
+## Output
+The package exports a `ConsoleOutput` class. This class allows you to print expressive and colored messages to the terminal.
+
+
+### Logging
+Tba.
+
+![Supercharge: Console IO Output](https://github.com/supercharge/console-io/blob/main/assets/logging-all.png)
+
+Text
+
+
+### Tags
+The `ConsoleOutput` class provides a `.tag(label)` method creating a pending tag output. The pending tag must be completed with a given message. The tag message relates to one of the available states. The tag states define the colors. At this point, there are three tags availabe: `success`, `info`, `failed`.
+
+
+![Supercharge: Console IO Output](https://github.com/supercharge/console-io/blob/main/assets/tags.png)
+
+
+#### output.tag(label).success(message)
+Prints a success tag to the terminal. The tag `label` is printed with dark text on a green background. The `message` provides more context data:
+
+```js
+output.tag(' PASS ').success('All tests pass.')
+```
+
+
+#### output.tag(label).info(message)
+Prints an info tag to the terminal. The tag `label` is printed with dark text on a blue background. The `message` provides more context data:
+
+```js
+output.tag(' SKIPPED ').info('All tests pass.')
+```
+
+#### output.tag(label).failed(message)
+Prints a fail tag to the terminal. The tag `label` is printed with dark text on a red background. The `message` provides more context data:
+
+```js
+output.tag(' FAIL ').failed('All tests pass.')
 ```
 
 
