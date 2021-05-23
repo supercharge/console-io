@@ -66,8 +66,8 @@ npm i @supercharge/console-io
     - [`output.fail(labelOrMessage, message?)`](#outputfaillabelormessage-message)
   - [Tags](#tags)
     - [`output.tag(label).success(message)`](#outputtaglabelsuccessmessage)
-    - [`output.tag(label).info(message, reason?)`](#outputtaglabelinfomessage)
-    - [`output.tag(label).failed(message, reason?)`](#outputtaglabelfailedmessage)
+    - [`output.tag(label).info(message, reason?)`](#outputtaglabelinfomessage-reason)
+    - [`output.tag(label).failed(message, reason?)`](#outputtaglabelfailedmessage-reason)
 
 
 ## Usage
@@ -327,22 +327,23 @@ The `ConsoleOutput` class provides a `.tag(label)` method creating a pending tag
 Prints a success tag to the terminal. The tag `label` is printed with dark text on a green background. The `message` provides more context data:
 
 ```js
-output.tag(' PASS ').success('All tests pass.')
+output.tag(' FINISHED ').success('Database migrations')
 ```
 
 
-#### output.tag(label).info(message)
+#### output.tag(label).info(message, reason?)
 Prints an info tag to the terminal. The tag `label` is printed with dark text on a blue background. The `message` provides more context data:
 
 ```js
-output.tag(' SKIPPED ').info('All tests pass.')
+output.tag(' IGNORED ').info('config/app.js file for this run')
+output.tag(' SKIPPED ').info('Copying .env', 'File already exists.')
 ```
 
-#### output.tag(label).failed(message)
+#### output.tag(label).failed(message, reason?)
 Prints a fail tag to the terminal. The tag `label` is printed with dark text on a red background. The `message` provides more context data:
 
 ```js
-output.tag(' FAIL ').failed('All tests pass.')
+output.tag(' FAILED ').failed('to copy .env file', 'File already exists.')
 ```
 
 
