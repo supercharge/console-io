@@ -54,17 +54,16 @@ npm i @supercharge/console-io
   - [`input.choice(message, builder)`](#inputchoicemessage-builder)
 - [Output](#output)
   - [Logging](#logging)
-    - `output.log(message)`
-    - `output.logError(message)`
-    - `output.blankLine()`
-    - `output.info(message)`
-    - `output.warn(message)`
-    - `output.debug(message)`
-    - `output.error(message)`
-    - `output.error(Error)`
-    - `output.success(labelOrMessage, message?)`
-    - `output.hint(labelOrMessage, message?)`
-    - `output.fail(labelOrMessage, message?)`
+    - [`output.log(message)`](#outputlogmessage)
+    - [`output.logError(message)`](#outputlogerrormessage)
+    - [`output.blankLine()`](#outputblankline)
+    - [`output.info(message)`](#outputinfomessage)
+    - [`output.warn(message)`](#outputwarnmessage)
+    - [`output.debug(message)`](#outputdebugmessage)
+    - [`output.error(message|Error)`](#outputerrormessage--error)
+    - [`output.success(labelOrMessage, message?)`](#outputsuccesslabelormessage-message)
+    - [`output.hint(labelOrMessage, message?)`](#outputhintlabelormessage-message)
+    - [`output.fail(labelOrMessage, message?)`](#outputfaillabelormessage-message)
   - [Tags](#tags)
     - [`output.tag(label).success(message)`](#outputtaglabelsuccessmessage)
     - [`output.tag(label).info(message, reason?)`](#outputtaglabelinfomessage)
