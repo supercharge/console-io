@@ -1,6 +1,6 @@
 {
   "name": "@supercharge/console-io",
-  "description": "Retrieve input from and print output to the console",
+  "description": "Opinionated UI kit for CLI inputs and outputs",
   "version": "0.0.0",
   "author": "Marcus Pöhls <marcus@superchargejs.com>",
   "bugs": {
