@@ -206,13 +206,20 @@ const choice = await input.choice('Choose your favorite framework', builder => {
 ## Output
 The package exports a `ConsoleOutput` class. This class allows you to print expressive and colored messages to the terminal.
 
+For example, you may use console output to create expressive and colored terminal messages.
+
+Here’s how you create a console output instance called `output`. The following console output examples refer to this `output` instance when calling the individual methods:
+
+```js
+const { ConsoleOutput } = require('@supercharge/console-io')
+
+const output = new ConsoleOutput()
+```
 
 ### Logging
-Tba.
+The console output exposes a handful methods. Here’s a preview how the console output looks like:
 
 ![Supercharge: Console IO Output](https://github.com/supercharge/console-io/blob/main/assets/logging-all.png)
-
-Text
 
 
 #### output.log(message)
