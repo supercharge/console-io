@@ -57,9 +57,9 @@ npm i @supercharge/console-io
     - `output.log(message)`
     - `output.logError(message)`
     - `output.blankLine()`
-    - `output.debug(message)`
     - `output.info(message)`
     - `output.warn(message)`
+    - `output.debug(message)`
     - `output.error(message)`
     - `output.error(Error)`
     - `output.success(labelOrMessage, message?)`
@@ -214,6 +214,100 @@ Tba.
 ![Supercharge: Console IO Output](https://github.com/supercharge/console-io/blob/main/assets/logging-all.png)
 
 Text
+
+
+#### output.log(message)
+Prints a log message to `stdout`. Works like `console.log` but uses the log renderer. Log renderers can be swapped for better testing:
+
+```js
+output.log('Supercharge is sweet!')
+```
+
+
+#### output.logError(message)
+Prints a log message to `stderr`. Works like `console.error` but uses the log renderer. Log renderers can be swapped for better testing:
+
+```js
+output.log('Supercharge is sweet!')
+```
+
+
+#### output.blankLine()
+Prints an empty line to the terminal. Useful to create whitespace:
+
+```js
+output.blankLine()
+```
+
+
+#### output.info(message)
+Prints the given info `message` to the terminal. Info messages will be prefixed with an “INFO” tag on a cyan background:
+
+```js
+output.info('info message')
+```
+
+
+#### output.warn(message)
+Prints the given warning `message` to the terminal. Warning messages will be prefixed with a “WARN” tag on a yellow background:
+
+```js
+output.info('warning message')
+```
+
+
+#### output.debug(message)
+Prints the given debug `message` to the terminal. Debug messages will be prefixed with a “DEBUG” tag on a blue background:
+
+```js
+output.debug('debug message')
+```
+
+
+#### output.error(message | Error)
+Prints the given error `message` or message from the `Error` instance to the terminal. Error messages will be prefixed with an “ERROR” tag on a red background:
+
+```js
+output.debug('debug message')
+```
+
+When providing an `Error` instance, the stack trace will be printed dimmed below the error message.
+
+
+#### output.success(labelOrMessage, message?)
+Prints a success message to the terminal. When providing a single parameter to `.success(message)`, the text will be printed in green. You may provide the label and message parameters to create a success tag for the given `label` with the related `message`:
+
+```js
+// just a success message
+output.success('Green-colored success message')
+
+// success message with label
+output.success('SUCCESS', 'success message')
+```
+
+
+#### output.hint(labelOrMessage, message?)
+Prints a hint message to the terminal. When providing a single parameter to `.hint(message)`, the text will be printed in blue. You may provide the label and message parameters to create a hint tag for the given `label` with the related `message`:
+
+```js
+// just a hint message
+output.hint('Blue-colored hint message')
+
+// hint message with label
+output.hint('SKIPPED', 'hint message')
+```
+
+
+#### output.fail(labelOrMessage, message?)
+Prints a fail message to the terminal. When providing a single parameter to `.fail(message)`, the text will be printed in red. You may provide the label and message parameters to create a fail tag for the given `label` with the related `message`:
+
+```js
+// just a fail message
+output.fail('Red-colored fail message')
+
+// fail message with label
+output.fail('FAILED', 'fail message')
+```
 
 
 ### Tags
