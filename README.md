@@ -66,9 +66,9 @@ npm i @supercharge/console-io
     - `output.hint(labelOrMessage, message?)`
     - `output.fail(labelOrMessage, message?)`
   - [Tags](#tags)
-    - `output.tag(label).success(message)`
-    - `output.tag(label).info(message, reason?)`
-    - `output.tag(label).failed(message, reason?)`
+    - [`output.tag(label).success(message)`](#outputtaglabelsuccessmessage)
+    - [`output.tag(label).info(message, reason?)`](#outputtaglabelinfomessage)
+    - [`output.tag(label).failed(message, reason?)`](#outputtaglabelfailedmessage)
 
 
 ## Usage
