@@ -5,7 +5,7 @@ import kleur, { Kleur } from 'kleur'
 import { isNullish, tap } from '@supercharge/goodies'
 import { LoggerContract, ConsoleLogger } from './logger'
 
-export class ConsoleOutput {
+export class ConsoleOutput implements LoggerContract {
   /**
    * Stores the instance state.
    */
@@ -83,6 +83,30 @@ export class ConsoleOutput {
   logError (message: string): this {
     return tap(this, () => {
       this.logger().logError(message)
+    })
+  }
+
+  /**
+   * Log the given `message` to the terminal by overwriting the previous message.
+   *
+   * @param {String} message
+   *
+   * @returns {ConsoleOutput}
+   */
+  logUpdate (message: string): this {
+    return tap(this, () => {
+      this.logger().logUpdate(message)
+    })
+  }
+
+  /**
+    * Persist the log message previosly written to the terminal using `logUpdate`.
+    *
+    * @returns {ConsoleOutput}
+    */
+  logUpdateDone (): this {
+    return tap(this, () => {
+      this.logger().logUpdateDone()
     })
   }
 
