@@ -2,6 +2,12 @@
 
 const { ConsoleOutput } = require('../dist')
 
+async function wait (seconds) {
+  return new Promise(resolve => {
+    setTimeout(resolve, seconds * 1000)
+  })
+}
+
 async function run () {
   const output = new ConsoleOutput()
 
@@ -29,6 +35,14 @@ async function run () {
     .fail('Fail message')
     .fail(' FAIL ', 'Error message with tag')
     .blankLine()
+
+  const spinner = output.await('Installing dependencies')
+  await wait(2)
+  spinner.update('updating components dependencies')
+  await wait(2)
+  spinner.update('completing setup')
+  await wait(2)
+  spinner.done('Setup complete')
 }
 
 run()
