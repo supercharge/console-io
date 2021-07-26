@@ -1,6 +1,7 @@
 'use strict'
 
 import { Tag } from './tag'
+import { Spinner } from './spinner'
 import kleur, { Kleur } from 'kleur'
 import { isNullish, tap } from '@supercharge/goodies'
 import { LoggerContract, ConsoleLogger } from './logger'
@@ -259,14 +260,23 @@ export class ConsoleOutput implements LoggerContract {
    * @returns {String}
    */
   private formatStack (stack?: string): string {
-    if (!stack) {
-      return ''
-    }
+    return !stack
+      ? ''
+      : stack
+        .split('\n')
+        .splice(1)
+        .map(line => `${this.colors().dim(line)}`)
+        .join('\n')
+  }
 
-    return stack
-      .split('\n')
-      .splice(1)
-      .map(line => `${this.colors().dim(line)}`)
-      .join('\n')
+  /**
+   * Creates and starts a spinner for the given `message`
+   *
+   * @param {String} message
+   *
+   * @returns {Spinner}
+   */
+  await (message: string): Spinner {
+    return Spinner.start(message, this)
   }
 }
