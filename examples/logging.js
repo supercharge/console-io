@@ -38,7 +38,7 @@ async function run () {
 
   const spinner = output.await('Installing dependencies')
   await wait(2)
-  spinner.update('updating components dependencies')
+  spinner.update('updating components')
   await wait(2)
   spinner.update('completing setup')
   await wait(2)
