@@ -10,6 +10,7 @@
     "@supercharge/goodies": "~1.9.0",
     "@types/prompts": "~2.0.13",
     "kleur": "~4.1.4",
+    "log-update": "~4.0.0",
     "prompts": "~2.4.1"
   },
   "devDependencies": {
