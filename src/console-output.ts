@@ -276,7 +276,34 @@ export class ConsoleOutput implements LoggerContract {
    *
    * @returns {Spinner}
    */
-  await (message: string): Spinner {
+  spinner (message: string): Spinner {
     return Spinner.start(message, this)
   }
+
+  /**
+   * Creates and starts a spinner with the given `message`. Then runs the
+   * given `callback` and stops the spinner when not already stopped.
+   *
+   * @param {String} message
+   * @param {SpinnerCallback} callback
+   *
+   * @returns {T}
+   */
+  async withSpinner<T = any> (message: string, callback: SpinnerCallback): Promise<T> {
+    if (!message) {
+      throw new Error(`You must provide a message to the "withSpinner(message, callback)" method. Received ${typeof message}`)
+    }
+
+    if (!callback) {
+      throw new Error(`You must provide a callback function to the "withSpinner(message, callback)" method. Received ${typeof callback}`)
+    }
+
+    const spinner = this.spinner(message)
+
+    return tap(await callback(spinner), () => {
+      spinner.stop()
+    })
+  }
 }
+
+type SpinnerCallback = (spinner: Spinner) => Promise<any>
