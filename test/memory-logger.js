@@ -7,7 +7,6 @@ test('Memory Logger', async () => {
   test('logUpdate', async t => {
     const logger = new MemoryLogger()
     logger.logUpdate('Supercharge')
-    console.log(logger.logs())
     t.equal(logger.logs().length, 1)
     t.same(logger.logs(), [{ message: 'Supercharge', stream: 'stdout' }])
 
