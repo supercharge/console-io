@@ -44,12 +44,18 @@ async function run () {
     await wait(2)
     spinner.update('Completing setup')
     await wait(2)
-    spinner.stop('Project setup')
 
     return { done: true }
   })
 
-  output.log({ result })
+  output
+    .log('result ->', result)
+    .blankLine()
+
+  await output.withSpinner('A failing spinner', async () => {
+    spinner.fail()
+    throw new Error('Uff, failed!')
+  })
 }
 
 run()
