@@ -36,13 +36,20 @@ async function run () {
     .fail(' FAIL ', 'Error message with tag')
     .blankLine()
 
-  const spinner = output.await('Installing dependencies')
+  const spinner = output.spinner('Installing dependencies')
   await wait(2)
-  spinner.update('updating components')
-  await wait(2)
-  spinner.update('completing setup')
-  await wait(2)
-  spinner.done('Setup complete')
+  spinner.stop()
+
+  const result = await output.withSpinner('Updating components', async spinner => {
+    await wait(2)
+    spinner.update('Completing setup')
+    await wait(2)
+    spinner.stop('Project setup')
+
+    return { done: true }
+  })
+
+  output.log({ result })
 }
 
 run()
