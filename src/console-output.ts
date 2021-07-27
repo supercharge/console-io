@@ -68,9 +68,9 @@ export class ConsoleOutput implements LoggerContract {
    *
    * @returns {ConsoleOutput}
    */
-  log (message: string): this {
+  log (message: any, ...optionalParams: any[]): this {
     return tap(this, () => {
-      this.logger().log(message)
+      this.logger().log(message, ...optionalParams)
     })
   }
 
@@ -81,9 +81,9 @@ export class ConsoleOutput implements LoggerContract {
    *
    * @returns {ConsoleOutput}
    */
-  logError (message: string): this {
+  logError (message: any, ...optionalParams: any[]): this {
     return tap(this, () => {
-      this.logger().logError(message)
+      this.logger().logError(message, ...optionalParams)
     })
   }
 
@@ -289,7 +289,7 @@ export class ConsoleOutput implements LoggerContract {
    *
    * @returns {T}
    */
-  async withSpinner<T = any> (message: string, callback: SpinnerCallback): Promise<T> {
+  async withSpinner<T = any> (message: string, callback: SpinnerCallback): Promise<T | undefined> {
     if (!message) {
       throw new Error(`You must provide a message to the "withSpinner(message, callback)" method. Received ${typeof message}`)
     }
@@ -300,9 +300,14 @@ export class ConsoleOutput implements LoggerContract {
 
     const spinner = this.spinner(message)
 
-    return tap(await callback(spinner), () => {
-      spinner.stop()
-    })
+    try {
+      return tap(await callback(spinner), () => {
+        spinner.stop()
+      })
+    } catch (error) {
+      spinner.fail()
+      throw error
+    }
   }
 }
 

@@ -50,7 +50,7 @@ export class MemoryLogger implements LoggerContract {
    *
    * @returns {MemoryLogger}
    */
-  log (message: string): this {
+  log (message: any): this {
     return tap(this, () => {
       this.logs().push({ message, stream: 'stdout' })
     })
@@ -63,7 +63,7 @@ export class MemoryLogger implements LoggerContract {
    *
    * @returns {MemoryLogger}
    */
-  logError (message: string): this {
+  logError (message: any): this {
     return tap(this, () => {
       this.logs().push({ message, stream: 'stderr' })
     })

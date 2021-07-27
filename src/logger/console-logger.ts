@@ -12,9 +12,9 @@ export class ConsoleLogger implements LoggerContract {
    *
    * @returns {ConsoleLogger}
    */
-  log (message: string): this {
+  log (message: any, ...optionalParams: any[]): this {
     return tap(this, () => {
-      console.log(message)
+      console.log(message, ...optionalParams)
     })
   }
 
@@ -25,9 +25,9 @@ export class ConsoleLogger implements LoggerContract {
    *
    * @returns {ConsoleLogger}
    */
-  logError (message: string): this {
+  logError (message: any, ...optionalParams: any[]): this {
     return tap(this, () => {
-      console.error(message)
+      console.error(message, ...optionalParams)
     })
   }
 
