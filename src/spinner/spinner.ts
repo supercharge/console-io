@@ -1,13 +1,13 @@
 'use strict'
 
 import { tap } from '@supercharge/goodies'
-import { LoggerContract } from '../logger'
+import { ConsoleOutput } from '../console-output'
 
 export class Spinner {
   /**
-   * The logger instance.
+   * The console output instance.
    */
-  private readonly logger: LoggerContract
+  private readonly output: ConsoleOutput
 
   /**
    * The message rendered in front of the spinner.
@@ -40,11 +40,11 @@ export class Spinner {
   private spinner?: NodeJS.Timeout
 
   /**
-   * Create a new memory logger instance.
+   * Create a new spinner instance.
    */
-  constructor (message: string, logger: LoggerContract) {
+  constructor (message: string, output: ConsoleOutput) {
     this.state = 'idle'
-    this.logger = logger
+    this.output = output
     this.message = message
   }
 
@@ -53,14 +53,14 @@ export class Spinner {
    *
    * @returns {Spinner}
    */
-  static start (message: string, logger: LoggerContract): Spinner {
-    return new this(message, logger).start()
+  static start (message: string, output: ConsoleOutput): Spinner {
+    return new this(message, output).start()
   }
 
   /**
-   * Returns the array of stored log messages.
+   * Starts the spinner.
    *
-   * @returns {MemoryLog[]}
+   * @returns {Spinner}
    */
   private start (): this {
     return tap(this, () => {
@@ -69,7 +69,9 @@ export class Spinner {
   }
 
   /**
-   * Mark this spinner as started.
+   * Use the given `message` and display it in front of the spinner.
+   *
+   * @param {String} message
    *
    * @returns {Spinner}
    */
@@ -100,6 +102,24 @@ export class Spinner {
       this.state = 'idle'
       this.currentIndex = this.frames.length - 1
     })
+  }
+
+  /**
+   * Determine whether the spinner is running.
+   *
+   * @returns {Boolean}
+   */
+  isRunning (): boolean {
+    return !this.isStopped()
+  }
+
+  /**
+   * Determine whether the spinner is stopped.
+   *
+   * @returns {Boolean}
+   */
+  isStopped (): boolean {
+    return this.state === 'idle'
   }
 
   /**
@@ -151,18 +171,20 @@ export class Spinner {
   }
 
   /**
-   * Render the current animation frame.
+   * Render the current animation frame or mark the task as done.
    *
    * @returns {Spinner}
    */
   private renderFrame (): this {
-    return tap(this, () => {
-      this.logger.logUpdate(`${this.message} ${this.frame()}`)
-    })
+    this.isRunning()
+      ? this.output.logUpdate(`${this.message} ${this.frame()}`)
+      : this.output.logUpdate(`${this.message} ${this.output.colors().green('[done]')}`)
+
+    return this
   }
 
   /**
-   * Returns the current loading animation frame.
+   * Returns the current animation frame.
    *
    * @returns {String}
    */
@@ -180,16 +202,21 @@ export class Spinner {
   }
 
   /**
-   * Stop the spinner. Provide a `message` to update the spinner’s text before stopping it.
+   * Stop the spinner with an optional `message`. When passing a
+   * message it updates the spinner’s text before stopping it.
    *
    * @param {String} message
    */
-  done (message?: string): void {
+  stop (message?: string): void {
+    if (this.isStopped()) {
+      return
+    }
+
     if (message) {
       this.update(message)
     }
 
-    this.markAsStopped().clearSpinner()
-    this.logger.logUpdateDone()
+    this.markAsStopped().renderFrame().clearSpinner()
+    this.output.logUpdateDone()
   }
 }
