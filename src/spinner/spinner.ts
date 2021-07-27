@@ -17,7 +17,7 @@ export class Spinner {
   /**
    * The spinner state.
    */
-  private state: 'pending' | 'running'
+  private state: 'idle' | 'running'
 
   /**
    * The animation duration.
@@ -43,7 +43,7 @@ export class Spinner {
    * Create a new memory logger instance.
    */
   constructor (message: string, logger: LoggerContract) {
-    this.state = 'pending'
+    this.state = 'idle'
     this.logger = logger
     this.message = message
   }
@@ -55,15 +55,6 @@ export class Spinner {
    */
   static start (message: string, logger: LoggerContract): Spinner {
     return new this(message, logger).start()
-  }
-
-  /**
-   * Returns the current loading animation frame.
-   *
-   * @returns {String}
-   */
-  private frame (): string {
-    return this.frames[this.currentIndex]
   }
 
   /**
@@ -106,7 +97,7 @@ export class Spinner {
    */
   private markAsStopped (): this {
     return tap(this, () => {
-      this.state = 'pending'
+      this.state = 'idle'
       this.currentIndex = this.frames.length - 1
     })
   }
@@ -117,9 +108,22 @@ export class Spinner {
    * @returns {Spinner}
    */
   private render (): this {
-    return this.state === 'pending'
-      ? this.clearSpinner()
-      : this.createSpinner()
+    return this.state === 'running'
+      ? this.ensureSpinner()
+      : this.clearSpinner()
+  }
+
+  /**
+   * Create the spinner interval.
+   *
+   * @returns {Spinner}
+   */
+  private ensureSpinner (): this {
+    this.spinner = setInterval(() => {
+      this.setNextAnimationFrame().renderFrame()
+    }, this.interval)
+
+    return this
   }
 
   /**
@@ -131,19 +135,6 @@ export class Spinner {
     if (this.spinner) {
       clearInterval(this.spinner)
     }
-
-    return this
-  }
-
-  /**
-   * Create the spinner interval.
-   *
-   * @returns {Spinner}
-   */
-  private createSpinner (): this {
-    this.spinner = setInterval(() => {
-      this.setNextAnimationFrame().renderFrame()
-    }, this.interval)
 
     return this
   }
@@ -171,14 +162,12 @@ export class Spinner {
   }
 
   /**
-   * Reset the animation frame to the beginning.
+   * Returns the current loading animation frame.
    *
-   * @returns {Spinner}
+   * @returns {String}
    */
-  private resetAnimation (): this {
-    return tap(this, () => {
-      this.currentIndex = 0
-    })
+  private frame (): string {
+    return this.frames[this.currentIndex]
   }
 
   /**
@@ -187,7 +176,7 @@ export class Spinner {
    * @param {String} message
    */
   update (message: string): this {
-    return this.setMessage(message).resetAnimation()
+    return this.setMessage(message).renderFrame()
   }
 
   /**
@@ -200,7 +189,7 @@ export class Spinner {
       this.update(message)
     }
 
-    this.markAsStopped()
+    this.markAsStopped().clearSpinner()
     this.logger.logUpdateDone()
   }
 }
