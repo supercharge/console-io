@@ -17,7 +17,7 @@ export class Spinner {
   /**
    * The spinner state.
    */
-  private state: 'idle' | 'running'
+  private state: 'idle' | 'running' | 'failed'
 
   /**
    * The animation duration.
@@ -105,11 +105,23 @@ export class Spinner {
   }
 
   /**
+   * Mark this spinner as failed.
+   *
+   * @returns {Spinner}
+   */
+  private markAsFailed (): this {
+    return tap(this, () => {
+      this.state = 'failed'
+      this.currentIndex = this.frames.length - 1
+    })
+  }
+
+  /**
    * Determine whether the spinner is running.
    *
    * @returns {Boolean}
    */
-  isRunning (): boolean {
+  private isRunning (): boolean {
     return !this.isStopped()
   }
 
@@ -118,8 +130,17 @@ export class Spinner {
    *
    * @returns {Boolean}
    */
-  isStopped (): boolean {
-    return this.state === 'idle'
+  private isStopped (): boolean {
+    return this.state === 'idle' || this.isFailed()
+  }
+
+  /**
+   * Determine whether the spinner is stopped.
+   *
+   * @returns {Boolean}
+   */
+  private isFailed (): boolean {
+    return this.state === 'failed'
   }
 
   /**
@@ -176,8 +197,14 @@ export class Spinner {
    * @returns {Spinner}
    */
   private renderFrame (): this {
-    this.isRunning()
-      ? this.output.logUpdate(`${this.message} ${this.frame()}`)
+    if (this.isRunning()) {
+      this.output.logUpdate(`${this.message} ${this.frame()}`)
+
+      return this
+    }
+
+    this.isFailed()
+      ? this.output.logUpdate(`${this.message} ${this.output.colors().red('[failed]')}`)
       : this.output.logUpdate(`${this.message} ${this.output.colors().green('[done]')}`)
 
     return this
@@ -216,7 +243,32 @@ export class Spinner {
       this.update(message)
     }
 
-    this.markAsStopped().renderFrame().clearSpinner()
+    this.markAsStopped().cleanUp()
+  }
+
+  /**
+   * Stop the spinner and mark it as failed with an optional `message`. When
+   * passing a message it updates the spinner’s text before stopping it.
+   *
+   * @param {String} message
+   */
+  fail (message?: string): void {
+    if (this.isStopped()) {
+      return
+    }
+
+    if (message) {
+      this.update(message)
+    }
+
+    this.markAsFailed().cleanUp()
+  }
+
+  /**
+   * Update the spinner’s text and clean up any internal state belonging to this spinner.
+   */
+  private cleanUp (): void {
+    this.renderFrame().clearSpinner()
     this.output.logUpdateDone()
   }
 }
