@@ -149,9 +149,7 @@ export class Spinner {
    * @returns {Spinner}
    */
   private render (): this {
-    return this.state === 'running'
-      ? this.ensureSpinner().renderFrame()
-      : this.clearSpinner()
+    return this.ensureSpinner().renderFrame()
   }
 
   /**
