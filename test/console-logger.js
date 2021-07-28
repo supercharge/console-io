@@ -34,4 +34,14 @@ test('Console Logger', async t => {
     consoleLogSpy.restore()
     consoleErrorSpy.restore()
   })
+
+  test('logUpdate & logUpdateDone', async t => {
+    const consoleLogSpy = Sinon.spy(process.stdout, 'write')
+    const output = new ConsoleOutput()
+
+    output.logUpdate('hello')
+    t.ok(consoleLogSpy.called)
+
+    consoleLogSpy.restore()
+  })
 })

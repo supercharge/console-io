@@ -1,6 +1,21 @@
 # Changelog
 
 
+## [1.2.0](https://github.com/supercharge/console-io/compare/v1.1.0...v1.2.0) - 2021-0x-xx
+
+### Added
+- `output.spinner(message)` method creating a spinner with the given `message`
+- `output.withSpinner(message, callback)` method creating a spinner that runs the given `callback` action
+- ignore `helper*` files when running tests
+- `output.logUpdate()` method to replace the previous log message with a new one
+  - this is useful for tasks that outline the current step
+- `output.logUpdateDone()` method telling the logger to stop replacing the previous message and log new lines again
+
+### Updated
+- bump dependencies
+- `log` and `logError` methods accept `any` type: this fixes issues when using TypeScript where logging anything but strings would cause a type error
+
+
 ## [1.1.0](https://github.com/supercharge/console-io/compare/v1.0.0...v1.1.0) - 2021-06-09
 
 ### Added

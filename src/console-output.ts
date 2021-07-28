@@ -1,11 +1,12 @@
 'use strict'
 
 import { Tag } from './tag'
+import { Spinner } from './spinner'
 import kleur, { Kleur } from 'kleur'
 import { isNullish, tap } from '@supercharge/goodies'
 import { LoggerContract, ConsoleLogger } from './logger'
 
-export class ConsoleOutput {
+export class ConsoleOutput implements LoggerContract {
   /**
    * Stores the instance state.
    */
@@ -67,9 +68,9 @@ export class ConsoleOutput {
    *
    * @returns {ConsoleOutput}
    */
-  log (message: string): this {
+  log (message: any, ...optionalParams: any[]): this {
     return tap(this, () => {
-      this.logger().log(message)
+      this.logger().log(message, ...optionalParams)
     })
   }
 
@@ -80,9 +81,33 @@ export class ConsoleOutput {
    *
    * @returns {ConsoleOutput}
    */
-  logError (message: string): this {
+  logError (message: any, ...optionalParams: any[]): this {
     return tap(this, () => {
-      this.logger().logError(message)
+      this.logger().logError(message, ...optionalParams)
+    })
+  }
+
+  /**
+   * Log the given `message` to the terminal by overwriting the previous message.
+   *
+   * @param {String} message
+   *
+   * @returns {ConsoleOutput}
+   */
+  logUpdate (message: string): this {
+    return tap(this, () => {
+      this.logger().logUpdate(message)
+    })
+  }
+
+  /**
+    * Persist the log message previosly written to the terminal using `logUpdate`.
+    *
+    * @returns {ConsoleOutput}
+    */
+  logUpdateDone (): this {
+    return tap(this, () => {
+      this.logger().logUpdateDone()
     })
   }
 
@@ -235,14 +260,55 @@ export class ConsoleOutput {
    * @returns {String}
    */
   private formatStack (stack?: string): string {
-    if (!stack) {
-      return ''
+    return !stack
+      ? ''
+      : stack
+        .split('\n')
+        .splice(1)
+        .map(line => `${this.colors().dim(line)}`)
+        .join('\n')
+  }
+
+  /**
+   * Creates and starts a spinner for the given `message`
+   *
+   * @param {String} message
+   *
+   * @returns {Spinner}
+   */
+  spinner (message: string): Spinner {
+    return Spinner.start(message, this)
+  }
+
+  /**
+   * Creates and starts a spinner with the given `message`. Then runs the
+   * given `callback` and stops the spinner when not already stopped.
+   *
+   * @param {String} message
+   * @param {SpinnerCallback} callback
+   *
+   * @returns {T}
+   */
+  async withSpinner<T = any> (message: string, callback: SpinnerCallback): Promise<T | undefined> {
+    if (!message) {
+      throw new Error(`You must provide a message to the "withSpinner(message, callback)" method. Received ${typeof message}`)
     }
 
-    return stack
-      .split('\n')
-      .splice(1)
-      .map(line => `${this.colors().dim(line)}`)
-      .join('\n')
+    if (!callback) {
+      throw new Error(`You must provide a callback function to the "withSpinner(message, callback)" method. Received ${typeof callback}`)
+    }
+
+    const spinner = this.spinner(message)
+
+    try {
+      return tap(await callback(spinner), () => {
+        spinner.stop()
+      })
+    } catch (error) {
+      spinner.fail()
+      throw error
+    }
   }
 }
+
+type SpinnerCallback = (spinner: Spinner) => Promise<any>

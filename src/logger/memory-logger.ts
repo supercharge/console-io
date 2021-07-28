@@ -12,7 +12,7 @@ export class MemoryLogger implements LoggerContract {
   /**
    * Stores the log messages.
    */
-  private readonly meta: {
+  private meta: {
     logs: MemoryLog[]
   }
 
@@ -50,22 +50,45 @@ export class MemoryLogger implements LoggerContract {
    *
    * @returns {MemoryLogger}
    */
-  log (message: string): this {
+  log (message: any): this {
     return tap(this, () => {
       this.logs().push({ message, stream: 'stdout' })
     })
   }
 
   /**
-   * Save the given `message` into memory
+   * Save the given `message` into memory.
    *
    * @param message
    *
    * @returns {MemoryLogger}
    */
-  logError (message: string): this {
+  logError (message: any): this {
     return tap(this, () => {
       this.logs().push({ message, stream: 'stderr' })
     })
+  }
+
+  /**
+   * Save the given `message` into memory.
+   *
+   * @param message
+   *
+   * @returns {MemoryLogger}
+   */
+  logUpdate (message: string): this {
+    return tap(this, () => {
+      this.logs().pop()
+      this.log(message)
+    })
+  }
+
+  /**
+   * Persist the log message previosly written to the terminal using `logUpdate`.
+   */
+  logUpdateDone (): this {
+    // nothing to do here in the memory logger because not altering the terminal
+
+    return this
   }
 }
