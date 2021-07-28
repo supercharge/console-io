@@ -2,7 +2,7 @@
 
 const { test } = require('tap')
 const { wait } = require('./helper')
-const { ConsoleOutput, MemoryLogger } = require('../dist')
+const { ConsoleOutput, MemoryLogger, Spinner } = require('../dist')
 
 test('Spinner', async () => {
   test('spinner', async t => {
@@ -110,9 +110,17 @@ test('Spinner', async () => {
 
     await output.withSpinner('Supercharge', spinner => {
       spinner.fail('Woops')
+      spinner.fail('Different Woops')
     })
 
     t.ok(logger.logs()[0].message.includes('Woops '))
     t.ok(logger.logs()[0].message.includes('[failed]'))
+    t.notOk(logger.logs()[0].message.includes('Different Woops'))
+  })
+
+  test('clearSpinner', async t => {
+    const spinner = new Spinner('message')
+
+    t.equal(spinner.clearSpinner() instanceof Spinner, true)
   })
 })
