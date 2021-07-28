@@ -4,12 +4,19 @@
 ## [1.2.0](https://github.com/supercharge/console-io/compare/v1.1.0...v1.2.0) - 2021-07-28
 
 ### Added
+- Adding the missing `input.choice()` documention in the Readme
+
+#### Output
 - `output.spinner(message)` method creating a spinner with the given `message`
 - `output.withSpinner(message, callback)` method creating a spinner that runs the given `callback` action
 - ignore `helper*` files when running tests
 - `output.logUpdate()` method to replace the previous log message with a new one
   - this is useful for tasks that outline the current step
 - `output.logUpdateDone()` method telling the logger to stop replacing the previous message and log new lines again
+
+#### Input
+- added `.disabled()` method to choice builder (when using `input.choice(message, builder)`)
+
 
 ### Updated
 - bump dependencies
