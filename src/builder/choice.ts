@@ -6,7 +6,7 @@ import { Choice as ChoiceContract } from 'prompts'
 class Choice {
   public title: string
   public value?: string
-  public disabled?: boolean
+  public isDisabled?: boolean
   public selected?: boolean
   public description?: string
 
@@ -52,8 +52,19 @@ class Choice {
    * @returns {Choice}
    */
   markAsDisabled (): this {
+    console.log('This method is deprecated and will be removed in a future release. Use ".disabled()" instead.')
+
+    return this.disabled()
+  }
+
+  /**
+   * Mark this choice as disabled.
+   *
+   * @returns {Choice}
+   */
+  disabled (): this {
     return tap(this, () => {
-      this.disabled = true
+      this.isDisabled = true
     })
   }
 
@@ -108,7 +119,7 @@ export class ChoiceBuilder {
         title: choice.title,
         value: choice.value ?? index,
         description: choice.description,
-        disabled: choice.disabled,
+        disabled: choice.isDisabled,
         selected: choice.selected
       }
     })

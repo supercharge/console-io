@@ -59,7 +59,7 @@ test('Console Input', async () => {
 
     const color = await new ConsoleInput().injectAnswers('blue').choice('Color?', choices => {
       choices.add('Blue').withValue('blue').hint('blue')
-      choices.add('Red').withValue('red').markAsDisabled()
+      choices.add('Red').withValue('red').disabled()
       choices.add('Green').markAsSelected()
     })
 

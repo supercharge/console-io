@@ -27,7 +27,7 @@ async function confirm () {
 
 async function choice () {
   return await input.choice('What color do you like?', choice => {
-    choice.add('Marcus').withValue('marcus').markAsDisabled()
+    choice.add('Marcus').withValue('marcus').disabled()
     choice.add('Norman').withValue('norman').hint('this dude ey')
     choice.add('Christian').withValue('christian').markAsSelected()
   })
