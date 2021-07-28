@@ -68,6 +68,9 @@ npm i @supercharge/console-io
     - [`output.tag(label).success(message)`](#outputtaglabelsuccessmessage)
     - [`output.tag(label).info(message, reason?)`](#outputtaglabelinfomessage-reason)
     - [`output.tag(label).failed(message, reason?)`](#outputtaglabelfailedmessage-reason)
+  - [Spinner](#spinner)
+    - [`output.spinner(message)`](#outputspinnermessage)
+    - [`output.withSpinner(message, callback)`](#outputwithspinnermessagecallback)
 
 
 ## Usage
@@ -344,6 +347,55 @@ Prints a fail tag to the terminal. The tag `label` is printed with dark text on 
 
 ```js
 output.tag(' FAILED ').failed('to copy .env file', 'File already exists.')
+```
+
+
+### Spinner
+A `ConsoleOutput` instance provides the `.spinner(message)` and `.withSpinner(message, callback)` methods creating and returning a loading spinner with the given `message`. You can process long-running tasks while showing the loading spinner. You must manually stop the when using the `.spinner(message)` method. Stopping and starting the spinner is handled for you when using the `.withSpinner(message, callback)` method.
+
+
+![Supercharge: Console IO spinner](https://github.com/supercharge/console-io/blob/main/assets/spinner.gif)
+
+
+#### Spinner Interface
+You can change the state (message) of a loading spinner by using one of the following three methods:
+
+- `spinner.update(message)`: update the previous spinner text to the given `message`
+- `spinner.done(message?)`: stop the spinner and mark it as “done”. Optionally update the spinner text to the given `message`
+- `spinner.fail(message?)`: stop the spinner and mark it as “failed”. Optionally update the spinner text to the given `message`
+
+
+#### output.spinner(message)
+Creates and returns a started loading spinner for the given `message`:
+
+```js
+const spinner = output.spinner('Installing dependencies')
+await installDependencies()
+
+spinner.update('Processing long-running task')
+await processOtherLongRunningTask()
+
+spinner.stop('Setup complete')
+```
+
+
+#### output.withSpinner(message, callback)
+Returns a promise and runs the given `callback` action. The `callback` receives a started loading spinner instance. Using this method allows you to group actions of a long-running task into a callback function:
+
+```js
+await output.withSpinner('Installing dependencies', async spinner => {
+  await installDependencies()
+
+  spinner.update('Processing long-running task')
+  await processOtherLongRunningTask()
+
+  /**
+   * You can manually stop the spinner with a custom message. You can also skip
+   * stopping the spinner here if you’re fine using the previous message as
+   * the "done" message. Stopping the spinner is already handled for you.
+   */
+  spinner.stop('Setup complete')
+})
 ```
 
 
