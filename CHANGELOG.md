@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [1.2.0](https://github.com/supercharge/console-io/compare/v1.1.0...v1.2.0) - 2021-0x-xx
+## [1.2.0](https://github.com/supercharge/console-io/compare/v1.1.0...v1.2.0) - 2021-07-28
 
 ### Added
 - `output.spinner(message)` method creating a spinner with the given `message`
