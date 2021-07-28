@@ -106,10 +106,7 @@ const input = new ConsoleInput()
 ```
 
 
----
-
-
-### input.ask(message, builder?)
+#### input.ask(message, builder?)
 Prompts the user for text input:
 
 ```js
@@ -130,10 +127,7 @@ const name = await input.ask('What’s your name', builder => {
 ```
 
 
----
-
-
-### input.confirm(message, builder?)
+#### input.confirm(message, builder?)
 Prompts the user for a confirmation returning `true` or `false`:
 
 ```js
@@ -154,10 +148,7 @@ const proceed = await input.confirm('This deletes all files. Proceed?', builder 
 ```
 
 
----
-
-
-### input.password(message, builder?)
+#### input.password(message, builder?)
 Prompts the user for a password input. The typed input is masked with stars:
 
 ```js
@@ -177,10 +168,7 @@ const password = await input.password('Provide your password (not visible when t
 ```
 
 
----
-
-
-### input.secure(message)
+#### input.secure(message)
 Prompts the user for a secure input which is not visible when the user types the input:
 
 ```js
@@ -190,16 +178,13 @@ const secret = await input.secure('Provide your password')
 The `secure` method accepts is a shortcut to an invisible password prompts. It doesn’t show the input, not even masked with stars.
 
 
----
-
-
-### input.choice(message, builder)
-Tba.
+#### input.choice(message, builder)
+Prompts the user to select from a list of choices. Use the `builder` in the callback function to create and configure the available choices:
 
 ```js
 const choice = await input.choice('Choose your favorite framework', builder => {
   builder.add('Supercharge').withValue('supercharge')
-  builder.add('Express').withValue('express').markAsDisabled()
+  builder.add('Express').withValue('express').disabled()
 })
 
 // `choice` when selecting "Supercharge": "supercharge"
