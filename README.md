@@ -354,7 +354,7 @@ output.tag(' FAILED ').failed('to copy .env file', 'File already exists.')
 A `ConsoleOutput` instance provides the `.spinner(message)` and `.withSpinner(message, callback)` methods creating and returning a loading spinner with the given `message`. You can process long-running tasks while showing the loading spinner. You must manually stop the when using the `.spinner(message)` method. Stopping and starting the spinner is handled for you when using the `.withSpinner(message, callback)` method.
 
 
-![Supercharge: Console IO spinner](https://github.com/supercharge/console-io/blob/main/assets/spinner.gif)
+![Supercharge: Console IO Spinner](https://github.com/supercharge/console-io/blob/main/assets/spinner.gif)
 
 
 #### Spinner Interface
@@ -383,11 +383,11 @@ spinner.stop('Setup complete')
 Returns a promise and runs the given `callback` action. The `callback` receives a started loading spinner instance. Using this method allows you to group actions of a long-running task into a callback function:
 
 ```js
-await output.withSpinner('Installing dependencies', async spinner => {
+const result = await output.withSpinner('Installing dependencies', async spinner => {
   await installDependencies()
 
-  spinner.update('Processing long-running task')
-  await processOtherLongRunningTask()
+  spinner.update('Completing setup')
+  await completeSetup()
 
   /**
    * You can manually stop the spinner with a custom message. You can also skip
@@ -395,7 +395,24 @@ await output.withSpinner('Installing dependencies', async spinner => {
    * the "done" message. Stopping the spinner is already handled for you.
    */
   spinner.stop('Setup complete')
+
+  /**
+   * You may return a value from this callback and use it later in your code.
+   */
+  return { done: true }
 })
+```
+
+You must handle errors youself in case one of your methods inside the `callback` throws an error. A common approach is wrapping your code in a `try/catch` block and handling the error after catching it. Here’s an example on how you may handle errors:
+
+```js
+try {
+  await output.withSpinner('A failing spinner', async () => {
+    throw new Error('Uff, failed!')
+  })
+} catch (error) {
+  output.error(error.message)
+}
 ```
 
 
