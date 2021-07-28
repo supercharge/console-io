@@ -15,7 +15,8 @@ test('Spinner', async () => {
 
     spinner.stop()
     t.equal(logger.logs().length, 1)
-    t.same(logger.logs(), [{ message: 'Supercharge \u001b[32m[done]\u001b[39m', stream: 'stdout' }])
+    t.ok(logger.logs()[0].message.includes('Supercharge '))
+    t.ok(logger.logs()[0].message.includes('[done]'))
   })
 
   test('is loading', async t => {
@@ -79,10 +80,12 @@ test('Spinner', async () => {
 
     await output.withSpinner('Supercharge', spinner => {
       spinner.stop('stop')
-      t.same(logger.logs(), [{ message: 'stop \u001b[32m[done]\u001b[39m', stream: 'stdout' }])
+      t.notOk(logger.logs()[0].message.includes('Supercharge '))
+      t.ok(logger.logs()[0].message.includes('stop '))
+      t.ok(logger.logs()[0].message.includes('[done]'))
 
-      spinner.stop('this will not show up')
-      t.same(logger.logs(), [{ message: 'stop \u001b[32m[done]\u001b[39m', stream: 'stdout' }])
+      spinner.stop('second stop')
+      t.notOk(logger.logs()[0].message.includes('second stop'))
     })
   })
 
@@ -96,7 +99,8 @@ test('Spinner', async () => {
 
       t.fail() // should not be reached
     } catch (error) {
-      t.same(logger.logs(), [{ message: 'Supercharge \u001b[31m[failed]\u001b[39m', stream: 'stdout' }])
+      t.ok(logger.logs()[0].message.includes('Supercharge '))
+      t.ok(logger.logs()[0].message.includes('[failed]'))
     }
   })
 
@@ -108,6 +112,7 @@ test('Spinner', async () => {
       spinner.fail('Woops')
     })
 
-    t.same(logger.logs(), [{ message: 'Woops \u001b[31m[failed]\u001b[39m', stream: 'stdout' }])
+    t.ok(logger.logs()[0].message.includes('Woops '))
+    t.ok(logger.logs()[0].message.includes('[failed]'))
   })
 })
