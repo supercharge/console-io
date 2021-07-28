@@ -70,7 +70,7 @@ npm i @supercharge/console-io
     - [`output.tag(label).failed(message, reason?)`](#outputtaglabelfailedmessage-reason)
   - [Spinner](#spinner)
     - [`output.spinner(message)`](#outputspinnermessage)
-    - [`output.withSpinner(message, callback)`](#outputwithspinnermessagecallback)
+    - [`output.withSpinner(message, callback)`](#outputwithspinnermessage-callback)
 
 
 ## Usage
