@@ -3,9 +3,9 @@
 import { tap } from '@supercharge/goodies'
 import { Choice as ChoiceContract } from 'prompts'
 
-class Choice {
+class Choice<ValueType = any> {
   public title: string
-  public value?: string
+  public value?: ValueType
   public isDisabled?: boolean
   public selected?: boolean
   public description?: string
@@ -40,7 +40,7 @@ class Choice {
    *
    * @returns {Choice}
    */
-  withValue (value: any): this {
+  withValue (value: ValueType): this {
     return tap(this, () => {
       this.value = value
     })
@@ -80,12 +80,12 @@ class Choice {
   }
 }
 
-export class ChoiceBuilder {
+export class ChoiceBuilder<ValueType = any> {
   /**
    * Stores the builder meta data.
    */
   private readonly meta: {
-    choices: Choice[]
+    choices: Array<Choice<ValueType>>
   }
 
   /**
@@ -102,9 +102,22 @@ export class ChoiceBuilder {
    *
    * @returns {Choice}
    */
-  add (title: string): Choice {
-    return tap(new Choice(title), choice => {
+  add (title: string): Choice<ValueType> {
+    return tap(new Choice<ValueType>(title), choice => {
       this.addChoice(choice)
+    })
+  }
+
+  /**
+   * Add the given `choice` to the list of choices.
+   *
+   * @param {Choice} choice
+   *
+   * @returns {ChoiceBuilder}
+   */
+  private addChoice (choice: Choice<ValueType>): this {
+    return tap(this, () => {
+      this.meta.choices.push(choice)
     })
   }
 
@@ -122,19 +135,6 @@ export class ChoiceBuilder {
         disabled: choice.isDisabled,
         selected: choice.selected
       }
-    })
-  }
-
-  /**
-   * Add the given `choice` to the list of choices.
-   *
-   * @param {Choice} choice
-   *
-   * @returns {ChoiceBuilder}
-   */
-  private addChoice (choice: Choice): this {
-    return tap(this, () => {
-      this.meta.choices.push(choice)
     })
   }
 }

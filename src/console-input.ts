@@ -56,23 +56,21 @@ export class ConsoleInput {
    *
    * @returns {String}
    */
-  async choice (question: string, callback: (choiceBuilder: ChoiceBuilder) => unknown): Promise<string> {
-    const builder = new PromptBuilder()
-      .type('select')
-      .question(question)
+  async choice<ValueType = any> (question: string, callback: (choiceBuilder: ChoiceBuilder<ValueType>) => unknown): Promise<ValueType> {
+    const promptBuilder = new PromptBuilder().select().question(question)
 
     if (typeof callback !== 'function') {
       throw new Error(`The second argument to ".choice(question, callback)" must be a function. Received ${typeof callback}`)
     }
 
-    const choiceBuilder = new ChoiceBuilder()
+    const choiceBuilder = new ChoiceBuilder<ValueType>()
     callback(choiceBuilder)
 
-    builder.choices(
+    promptBuilder.choices(
       choiceBuilder.choices()
     )
 
-    return await this.prompt(builder)
+    return await this.prompt<ValueType>(promptBuilder)
   }
 
   /**
