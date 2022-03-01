@@ -1,6 +1,15 @@
 # Changelog
 
 
+## [1.2.0](https://github.com/supercharge/console-io/compare/v1.2.0...v1.3.0) - 2022-03-01
+
+### Added
+- support generic return type of `input.choice<ValueType>()`
+
+### Updated
+- bump dependencies
+
+
 ## [1.2.0](https://github.com/supercharge/console-io/compare/v1.1.0...v1.2.0) - 2021-07-28
 
 ### Added
