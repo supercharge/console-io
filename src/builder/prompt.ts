@@ -23,6 +23,17 @@ export class PromptBuilder {
   }
 
   /**
+   * Set the prompt type to type `select`.
+   *
+   * @returns {PromptBuilder}
+   */
+  public select (): this {
+    return tap(this, () => {
+      this.type('select')
+    })
+  }
+
+  /**
    * Set the prompt type to the given `type`.
    *
    * @param {String} name
