@@ -6,11 +6,8 @@ module.exports = {
     es2020: true
   },
   extends: [
-    'standard-with-typescript'
+    '@supercharge/typescript'
   ],
-  parserOptions: {
-    project: './tsconfig.json'
-  },
   rules: {
     '@typescript-eslint/no-extraneous-class': 0,
     '@typescript-eslint/no-invalid-void-type': 0,
