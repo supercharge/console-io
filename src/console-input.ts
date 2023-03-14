@@ -16,7 +16,7 @@ export class ConsoleInput {
    *
    * @returns {String}
    */
-  async ask<T extends string> (question: string, callback: (questionBuilder: QuestionBuilder) => unknown): Promise<T> {
+  async ask<T extends string> (question: string, callback?: (questionBuilder: QuestionBuilder) => unknown): Promise<T> {
     const builder = new PromptBuilder()
       .type('text')
       .question(question)
@@ -36,7 +36,7 @@ export class ConsoleInput {
    *
    * @returns {Boolean}
    */
-  async confirm (question: string, callback: (confirmBuilder: ConfirmBuilder) => unknown): Promise<boolean> {
+  async confirm (question: string, callback?: (confirmBuilder: ConfirmBuilder) => unknown): Promise<boolean> {
     const builder = new PromptBuilder()
       .type('confirm')
       .question(question)
@@ -60,7 +60,7 @@ export class ConsoleInput {
     const promptBuilder = new PromptBuilder().select().question(question)
 
     if (typeof callback !== 'function') {
-      throw new Error(`The second argument to ".choice(question, callback)" must be a function. Received ${typeof callback}`)
+      throw new Error(`The second argument to ".choice(question, callback)" must be a function. Received "${typeof callback}"`)
     }
 
     const choiceBuilder = new ChoiceBuilder<ValueType>()
@@ -81,7 +81,7 @@ export class ConsoleInput {
    *
    * @returns  {Result}
    */
-  async password (question: string, callback: (secureInputBuilder: SecureInputBuilder) => unknown): Promise<string> {
+  async password (question: string, callback?: (secureInputBuilder: SecureInputBuilder) => unknown): Promise<string> {
     const builder = new PromptBuilder()
       .type('password')
       .question(question)
@@ -129,7 +129,7 @@ export class ConsoleInput {
    * @param builder
    * @returns
    */
-  private async prompt<R>(builder: PromptBuilder): Promise<R> {
+  protected async prompt<R>(builder: PromptBuilder): Promise<R> {
     const result = await Prompt(
       builder.name('value').build()
     )
