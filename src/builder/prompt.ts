@@ -7,7 +7,7 @@ export class PromptBuilder {
   /**
    * The prompt configuration object.
    */
-  private prompt: PromptObject<string> = { type: false, name: 'value' }
+  private prompt: PromptObject<string> = { type: false, name: 'value', message: '' }
 
   /**
    * Set the prompt type to the given `type`.
