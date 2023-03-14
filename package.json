@@ -7,20 +7,20 @@
     "url": "https://github.com/supercharge/console-io/issues"
   },
   "dependencies": {
-    "@supercharge/goodies": "~1.10.1",
-    "@types/prompts": "~2.0.14",
-    "kleur": "~4.1.4",
+    "@supercharge/goodies": "~1.11.1",
+    "@types/prompts": "~2.4.3",
+    "kleur": "~4.1.5",
     "log-update": "~4.0.0",
     "prompts": "~2.4.2"
   },
   "devDependencies": {
-    "@supercharge/eslint-config-typescript": "~2.0.0",
-    "@supercharge/tsconfig": "~3.1.0",
-    "@types/node": "~17.0.34",
-    "eslint": "~8.15.0",
-    "sinon": "~14.0.0",
-    "tap": "~16.2.0",
-    "typescript": "~4.6.4"
+    "@supercharge/eslint-config-typescript": "~2.3.3",
+    "@supercharge/tsconfig": "~4.0.0",
+    "@types/node": "~18.15.2",
+    "eslint": "~8.36.0",
+    "sinon": "~15.0.2",
+    "tap": "~16.3.4",
+    "typescript": "~4.9.5"
   },
   "main": "dist",
   "types": "dist",
