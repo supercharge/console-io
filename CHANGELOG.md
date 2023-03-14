@@ -1,13 +1,14 @@
 # Changelog
 
 
-## [2.0.0](https://github.com/supercharge/console-io/compare/v1.3.0...v2.0.0) - 2022-xx-xx
+## [2.0.0](https://github.com/supercharge/console-io/compare/v1.3.0...v2.0.0) - 2023-03-14
 
 ### Updated
 - bump dependencies
+- refine types for input methods: make callbacks optional when not required
 
 ### Breaking Changes
-- Require Node.js v14 or later, drop support for Node.js v12
+- Require Node.js v16 or later, drop support for Node.js v12 and v14
 
 
 ## [1.3.0](https://github.com/supercharge/console-io/compare/v1.2.0...v1.3.0) - 2022-03-01
