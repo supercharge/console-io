@@ -41,8 +41,10 @@ export class ConsoleInput {
       .type('confirm')
       .question(question)
 
-    if (callback) {
+    if (callback && typeof callback === 'function') {
       callback(new ConfirmBuilder(builder))
+    } else if (callback && typeof callback !== 'function') {
+      throw new Error(`Invalid second parameter. A builder function is expected, received "${typeof callback}"`)
     }
 
     return await this.prompt(builder)
