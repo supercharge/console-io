@@ -8,19 +8,19 @@
   },
   "dependencies": {
     "@supercharge/goodies": "~1.11.1",
-    "@types/prompts": "~2.4.3",
+    "@types/prompts": "~2.4.4",
     "kleur": "~4.1.5",
     "log-update": "~4.0.0",
     "prompts": "~2.4.2"
   },
   "devDependencies": {
-    "@supercharge/eslint-config-typescript": "~2.3.3",
+    "@supercharge/eslint-config-typescript": "~3.0.0",
     "@supercharge/tsconfig": "~4.0.0",
-    "@types/node": "~18.15.2",
-    "eslint": "~8.36.0",
-    "sinon": "~15.0.2",
-    "tap": "~16.3.4",
-    "typescript": "~4.9.5"
+    "@types/node": "~20.4.4",
+    "eslint": "~8.45.0",
+    "sinon": "~15.2.0",
+    "tap": "~16.3.7",
+    "typescript": "~5.1.6"
   },
   "main": "dist",
   "types": "dist",
