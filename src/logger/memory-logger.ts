@@ -12,7 +12,7 @@ export class MemoryLogger implements LoggerContract {
   /**
    * Stores the log messages.
    */
-  private meta: {
+  private readonly meta: {
     logs: MemoryLog[]
   }
 
